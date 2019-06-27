@@ -1,0 +1,167 @@
+---
+title: "Checking Read QC"
+author: "Ryan M. Moore"
+date: "2019-06-27"
+output: 
+  html_document
+params:
+  constants: "constants.R"
+---
+
+```{r Set environmental variables}
+source(params$constants)
+
+# Set up the environmental variables.  Don't forget to run this if you change anything or restart the server!
+env_var_names <- gsub(".", "_", names(unlist(const)), fixed = TRUE)
+env_vars <- as.list(unlist(const, use.names = FALSE))
+names(env_vars) <- env_var_names
+do.call(Sys.setenv, env_vars)
+```
+
+Most of the read QC was already done by IGS.  We will just check a few things (read length, primer sequences) to make sure it looks good.
+
+# Checking length
+
+Make a file with read lengths.
+
+```{bash Get read lengths}
+date && time seq_lengths ${file_all_reads} > ${file_read_lengths}
+```
+
+Make an R histogram of the read lengths.
+
+```{r Read length data}
+read_lengths <- read.table(const$file$read_lengths, 
+                           header = FALSE,
+                           col.names = c("seq", "len"),
+                           sep = "\t")
+
+read_len_quant <- quantile(read_lengths$len, 
+                           c(0.001, 
+                             seq(0.01, 0.05, 0.01), 
+                             0.25, 0.5, 0.75, 
+                             seq(0.95, 0.99, 0.01), 
+                             0.999))
+
+print(read_len_quant)
+print(lower_end <- sum(read_lengths$len < read_len_quant[["0.1%"]]))
+print(upper_end <- sum(read_lengths$len > read_len_quant[["99.9%"]]))
+```
+
+There are so few short and long reads so I will leave them.  Also, since the reads are merged it is less likely that there will be length problems.  See [this post by Robert Edgar](https://www.drive5.com/usearch/manual/pipe_readprep_trim.html) for more info about that.
+
+## Differences between fecal and hide read length?
+
+Let's see if there is a difference in mean read length between the hide reads and the fecal reads.
+
+```{r Fecal vs. hide read length}
+hide_read_lengths <- read_lengths[grepl("^h", read_lengths$seq), ]
+fecal_read_lengths <- read_lengths[grepl("^f", read_lengths$seq), ]
+
+t.test(hide_read_lengths$len, fecal_read_lengths$len)
+```
+
+There is a significant difference, but the magnitude is only like 2 bp difference, so it's small.  I was just curious about this.
+
+# Checking for primer sequences
+
+We want to make sure there are no 16S primers left on our sequences.  [Here](https://static-content.springer.com/esm/art%3A10.1186%2F2049-2618-2-6/MediaObjects/40168_2013_35_MOESM2_ESM.txt) is the text file that has the primers used.
+
+The 319F Primer Sequence is `ACTCCTACGGGAGGCAGCAG`, and the 806R Primer Sequence is `GGACTACHVGGGTWTCTAAT`.
+
+## Subset the reads
+
+We want to take a small subset to check for contamination.  1000 reads should do it.
+
+```{bash Subsample reads}
+time vsearch \
+  --fastx_subsample ${file_all_reads} \
+  --fastaout ${file_read_subset} \
+  --sample_size 1000 \
+  --fasta_width 0 && \
+  head ${file_read_subset}
+```
+
+## Check for primer seqs
+
+We are only interested in running this for the reports for now.  Just to be sure, we will run all four options (5', 5' rev-comp, 3', and 3' rev-comp) through both the `--front` and `--adapter` option to make sure it's all good.
+
+Reverse complements come from [this site](http://arep.med.harvard.edu/labgc/adnan/projects/Utilities/revcomp.html).
+
+As you will see in the report below, none of the sequences in our sample look like they have the adapters listed in the paper.
+
+## Checking with --front
+
+```{bash}
+time cutadapt \
+  --action trim \
+  --overlap 10 \
+  --front ${primer_forward_5p_adapter} \
+  ${file_read_subset} \
+  > /dev/null
+```
+
+```{bash}
+time cutadapt \
+  --action trim \
+  --overlap 10 \
+  --front ${primer_forward_5p_adapter_revcomp} \
+  ${file_read_subset} \
+  > /dev/null
+```
+
+```{bash}
+time cutadapt \
+  --action trim \
+  --overlap 10 \
+  --front ${primer_reverse_3p_adapter} \
+  ${file_read_subset} \
+  > /dev/null
+```
+
+```{bash}
+time cutadapt \
+  --action trim \
+  --overlap 10 \
+  --front ${primer_reverse_3p_adapter_revcomp} \
+  ${file_read_subset} \
+  > /dev/null
+```
+
+## Checking with --adapter
+
+```{bash}
+time cutadapt \
+  --action trim \
+  --overlap 10 \
+  --adapter ${primer_forward_5p_adapter} \
+  ${file_read_subset} \
+  > /dev/null
+```
+
+```{bash}
+time cutadapt \
+  --action trim \
+  --overlap 10 \
+  --adapter ${primer_forward_5p_adapter_revcomp} \
+  ${file_read_subset} \
+  > /dev/null
+```
+
+```{bash}
+time cutadapt \
+  --action trim \
+  --overlap 10 \
+  --adapter ${primer_reverse_3p_adapter} \
+  ${file_read_subset} \
+  > /dev/null
+```
+
+```{bash}
+time cutadapt \
+  --action trim \
+  --overlap 10 \
+  --adapter ${primer_reverse_3p_adapter_revcomp} \
+  ${file_read_subset} \
+  > /dev/null
+```
