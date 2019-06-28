@@ -11,6 +11,9 @@ const <- list(
   env = list(
     user = system("id -un $(whoami)", intern = TRUE),
     group = system("id -gn $(whoami)", intern = TRUE)
+  ),
+  param = list(
+    num_threads = arg_num_threads
   )
 )
 

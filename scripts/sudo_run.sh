@@ -4,7 +4,7 @@ img_tag="$1"
 mnt_dir="$2"
 num_threads="$3"
 
-date && time docker run \
+date && time sudo docker run \
              --rm \
              -v "${mnt_dir}":"${mnt_dir}" \
              -e ROOT=true \

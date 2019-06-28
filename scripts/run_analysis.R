@@ -2,12 +2,14 @@ library(rmarkdown)
 
 args <- commandArgs(trailingOnly = TRUE)
 
-if (length(args) != 1) {
-  write("usage: run_analysis.R mnt_dir", file = stderr())
+if (length(args) != 2) {
+  write("usage: run_analysis.R mnt_dir num_threads", file = stderr())
   quit(save = "no", status = 1, runLast = FALSE)
 }
 
 arg_mnt_dir <- args[1]
+arg_num_threads = args[2]
+
 write(paste0("INFO -- mnt dir is ", arg_mnt_dir), file = stderr())
 
 html_outdir <- file.path(arg_mnt_dir, "html_output")

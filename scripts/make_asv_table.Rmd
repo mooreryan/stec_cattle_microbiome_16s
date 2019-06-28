@@ -2,7 +2,7 @@
 title: "Make ASV Table"
 author: "Ryan M. Moore"
 date: "2019-06-27"
-output: 
+output:
   html_document
 params:
   constants: "constants.R"
@@ -38,6 +38,7 @@ We generate ASVs with the unoise algorithm as implemented in VSEARCH.
 
 ```{bash cluster_unoise}
 date && time vsearch \
+  --threads ${param_num_threads} \
   --cluster_unoise ${file_derep_seqs} \
   --centroids ${file_unoise_seqs} \
   --relabel "Asv" \
@@ -63,8 +64,9 @@ Search the reads against the ASVs.
 
 ```{bash Make count table}
 date && time vsearch \
+  --threads ${param_num_threads} \
   --usearch_global ${file_all_reads} \
   --db ${file_asv_seqs} \
   --id 0.97 \
-  --otutabout ${file_asv_count_table} 
+  --otutabout ${file_asv_count_table}
 ```
