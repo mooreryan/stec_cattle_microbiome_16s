@@ -15,4 +15,4 @@ date && time docker run \
              -e ROOT=true \
              -e USER=ryan \
              mooreryan/stec_cattle_microbiome_16s:"${img_tag}" \
-             Rscript "${mnt_dir}"/scripts/run_analysis.R "${mnt_dir}" "${num_threads}"
+             Rscript "${mnt_dir}"/scripts/make_asv_table.R "${mnt_dir}" "${num_threads}"

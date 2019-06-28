@@ -3,7 +3,7 @@ library(rmarkdown)
 args <- commandArgs(trailingOnly = TRUE)
 
 if (length(args) != 2) {
-  write("usage: run_analysis.R mnt_dir num_threads", file = stderr())
+  write("usage: Rscript make_asv_table.R mnt_dir num_threads", file = stderr())
   quit(save = "no", status = 1, runLast = FALSE)
 }
 
@@ -14,6 +14,8 @@ write(paste0("INFO -- mnt dir is ", arg_mnt_dir), file = stderr())
 
 html_outdir <- file.path(arg_mnt_dir, "html_output")
 
+scripts_dir <- file.path("scripts", "make_asv_table")
+
 scripts <- c(
   "1_set_up.Rmd",
   "2_read_qc.Rmd",
@@ -23,7 +25,7 @@ scripts <- c(
 
 for (script in scripts) {
   render(file.path(arg_mnt_dir,
-                   "scripts",
+                   scripts_dir,
                    script),
          output_dir = html_outdir)
 }

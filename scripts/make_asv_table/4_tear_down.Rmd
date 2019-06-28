@@ -5,7 +5,7 @@ date: "2019-06-27"
 output:
   html_document
 params:
-  constants: "constants.R"
+  constants: "../constants.R"
 ---
 
 ```{r Set environmental variables}

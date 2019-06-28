@@ -2,10 +2,10 @@
 title: "2. Check Read QC"
 author: "Ryan M. Moore"
 date: "2019-06-27"
-output: 
+output:
   html_document
 params:
-  constants: "constants.R"
+  constants: "../constants.R"
 ---
 
 ```{r Set environmental variables}
@@ -31,16 +31,16 @@ date && time seq_lengths ${file_all_reads} > ${file_read_lengths}
 Make an R histogram of the read lengths.
 
 ```{r Read length data}
-read_lengths <- read.table(const$file$read_lengths, 
+read_lengths <- read.table(const$file$read_lengths,
                            header = FALSE,
                            col.names = c("seq", "len"),
                            sep = "\t")
 
-read_len_quant <- quantile(read_lengths$len, 
-                           c(0.001, 
-                             seq(0.01, 0.05, 0.01), 
-                             0.25, 0.5, 0.75, 
-                             seq(0.95, 0.99, 0.01), 
+read_len_quant <- quantile(read_lengths$len,
+                           c(0.001,
+                             seq(0.01, 0.05, 0.01),
+                             0.25, 0.5, 0.75,
+                             seq(0.95, 0.99, 0.01),
                              0.999))
 
 print(read_len_quant)
