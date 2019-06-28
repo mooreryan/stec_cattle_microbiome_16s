@@ -1,5 +1,5 @@
 ---
-title: "Checking Read QC"
+title: "2. Check Read QC"
 author: "Ryan M. Moore"
 date: "2019-06-27"
 output: 

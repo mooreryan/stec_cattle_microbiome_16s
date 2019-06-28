@@ -14,3 +14,11 @@ time scripts/run.sh '0.12.0' repo_root_dir num_threads
 Note, if you are on biomix, you need to use the `sudo_run.sh` script instead.
 
 All the generated files will be in `pipeline_output` and `html_output`.
+
+## TODO
+
+- Gzip these files
+  - `all_reads.fa`
+  - `derep_seqs.fa`
+  - `all_reads.lengths.txt` (maybe delete this one)
+- Any files/folders created by the container have `root` as user and group.

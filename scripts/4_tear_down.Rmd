@@ -1,5 +1,5 @@
 ---
-title: "Tear Down"
+title: "4. Tear Down"
 author: "Ryan M. Moore"
 date: "2019-06-27"
 output:
@@ -17,6 +17,13 @@ env_vars <- as.list(unlist(const, use.names = FALSE))
 names(env_vars) <- env_var_names
 do.call(Sys.setenv, env_vars)
 ```
+
+# Gzip large outfiles
+
+```{bash}
+date && time pigz -p${param_num_threads} ${file_all_reads} ${file_derep_seqs} ${file_read_lengths}
+```
+
 
 Move everything from the working directory in the running Docker container to the ``r const$dir$pipeline_output`` directory.
 

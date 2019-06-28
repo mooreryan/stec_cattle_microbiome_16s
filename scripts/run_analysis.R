@@ -15,10 +15,10 @@ write(paste0("INFO -- mnt dir is ", arg_mnt_dir), file = stderr())
 html_outdir <- file.path(arg_mnt_dir, "html_output")
 
 scripts <- c(
-  "set_up.Rmd",
-  "read_qc.Rmd",
-  "make_asv_table.Rmd",
-  "tear_down.Rmd"
+  "1_set_up.Rmd",
+  "2_read_qc.Rmd",
+  "3_make_asv_table.Rmd",
+  "4_tear_down.Rmd"
 )
 
 for (script in scripts) {

@@ -1,5 +1,10 @@
 #!/bin/bash
 
+if [[ $# -ne 3 ]]; then
+    >&2 echo "usage: ./run.sh img_tag mnt_dir num_threads"
+    exit 1
+fi
+
 img_tag="$1"
 mnt_dir="$2"
 num_threads="$3"

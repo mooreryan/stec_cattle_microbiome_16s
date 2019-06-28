@@ -1,3 +1,8 @@
+.RData
+.Rhistory
+.Rproj.user
+
 html_output
 original_reads/*
 pipeline_output
+stec_cattle_microbiome_16s.Rproj

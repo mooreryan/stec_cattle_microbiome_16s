@@ -1,5 +1,5 @@
 ---
-title: "Set Up"
+title: "1. Set Up"
 author: "Ryan M. Moore"
 date: "2019-06-27"
 output: 

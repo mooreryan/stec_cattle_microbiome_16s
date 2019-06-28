@@ -1,3 +1,9 @@
+# Some defaults in cases where command line args are not given.
+default <- list(
+  mnt_dir = "/Users/moorer/projects/stec_cattle_microbiome_16s",
+  num_threads = 4
+)
+
 # A bunch of constants
 const <- list(
   dir = list(),
@@ -13,14 +19,26 @@ const <- list(
     group = system("id -gn $(whoami)", intern = TRUE)
   ),
   param = list(
-    num_threads = arg_num_threads
+    num_threads = if (exists("arg_num_threads")) {
+      arg_num_threads
+    } else if (!is.null(params$num_threads)) {
+      params$num_threads
+    } else {
+      default$num_threads
+    }
   )
 )
 
 ## Directories
 
 # This is the mounted volume.  Grabs this from the environment when `run_analysis.R` is called.
-const$dir$mnt <- arg_mnt_dir
+const$dir$mnt <- if (exists("arg_mnt_dir")) {
+  arg_mnt_dir
+} else if (!is.null(params$mnt_dir)) {
+  params$mnt_dir
+} else {
+  default$mnt_dir
+}
 
 # Reads will be copied out of this directory.  Nothing in here will be changed.
 const$dir$orig_reads <- file.path(const$dir$mnt, "original_reads")
