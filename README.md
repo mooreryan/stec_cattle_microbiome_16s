@@ -17,8 +17,4 @@ All the generated files will be in `pipeline_output` and `html_output`.
 
 ## TODO
 
-- Gzip these files
-  - `all_reads.fa`
-  - `derep_seqs.fa`
-  - `all_reads.lengths.txt` (maybe delete this one)
 - Any files/folders created by the container have `root` as user and group.
