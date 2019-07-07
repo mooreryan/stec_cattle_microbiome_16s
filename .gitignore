@@ -1,8 +1,23 @@
+.bash_history
+.DS_Store
 .RData
 .Rhistory
 .Rproj.user
+.rstudio
+
+external_data
+
+rstudio
+
+taxonomy_db
 
 html_output
 original_reads/*
 pipeline_output
 stec_cattle_microbiome_16s.Rproj
+
+scripts/analysis
+
+*.html
+*/*.html
+*/*/*.html

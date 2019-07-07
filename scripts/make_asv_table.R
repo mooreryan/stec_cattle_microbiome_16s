@@ -20,7 +20,8 @@ scripts <- c(
   "1_set_up.Rmd",
   "2_read_qc.Rmd",
   "3_make_asv_table.Rmd",
-  "4_tear_down.Rmd"
+  "4_predict_taxonomy.Rmd",
+  "5_tear_down.Rmd"
 )
 
 for (script in scripts) {

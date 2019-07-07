@@ -43,13 +43,40 @@ const$dir$mnt <- if (exists("arg_mnt_dir")) {
 # Reads will be copied out of this directory.  Nothing in here will be changed.
 const$dir$orig_reads <- file.path(const$dir$mnt, "original_reads")
 
+# Taxonomy DB will be here.  Currently, user must add this by hand.
+const$dir$taxonomy_db <- file.path(const$dir$mnt, "taxonomy_db")
+
 # To speed up I/O bound programs, we need to do all work in a file that is not mapped to a mounted volume.
 const$dir$work <- "/home/work"
 
 # At the end of the pipeline, all output will be moved here.  You can access this from the host.
 const$dir$pipeline_output <- file.path(const$dir$mnt, "pipeline_output")
 
+# Downloads directory in the container
+const$dir$downloads <- "/home/downloads"
+const$dir$ncbi_taxonomy_dump <- file.path(const$dir$downloads, "ncbi_taxonomy_dump")
+const$dir$silva_ltp <- file.path(const$dir$downloads, "silva_ltp")
+
 ## Files
+
+# NCBI taxonomy dump
+const$file$ncbi_taxonomy_names_gz <- file.path(const$dir$ncbi_taxonomy_dump, "names.dmp.gz")
+const$file$ncbi_taxonomy_nodes_gz <- file.path(const$dir$ncbi_taxonomy_dump, "nodes.dmp.gz")
+# These files will be created by the pipeline
+const$file$ncbi_taxonomy_names <- file.path(const$dir$work, "names.dmp")
+const$file$ncbi_taxonomy_nodes <- file.path(const$dir$work, "nodes.dmp")
+
+# SILVA LTP files
+const$file$silva_ltp_taxonomy_gz <- file.path(const$dir$silva_ltp, "LTPs132_SSU.csv.gz")
+const$file$silva_ltp_fasta_gz <- file.path(const$dir$silva_ltp, "LTPs132_SSU_compressed.fasta.gz")
+# These files will be created in the pipeline.
+const$file$silva_ltp_taxonomy <- file.path(const$dir$work, "LTPs132_SSU.csv")
+const$file$silva_ltp_fasta <- file.path(const$dir$work, "LTPs132_SSU_compressed.fasta")
+
+# Sintax style fasta file for taxonomy DB
+const$file$make_silva_sintax_db_log <- file.path(const$dir$work, "make_silva_sintax_db.log.txt")
+const$file$taxonomy_db <- file.path(const$dir$work, "LTPs132_SSU_compressed.sintax.fasta")
+const$file$taxonomy_predictions <- file.path(const$dir$work, "sintax_taxonomy_predictions.txt")
 
 # Reads from all samples with vsearch sample identifiers
 const$file$all_reads <- file.path(const$dir$work, "all_reads.fa")
@@ -68,6 +95,8 @@ const$file$unoise_seqs <- file.path(const$dir$work, "unoise_seqs.fa")
 
 # Chimera free unoise seqs
 const$file$asv_seqs <- file.path(const$dir$work, "asv_seqs.fa")
+# Need to reverse complement them for taxonomic prediction.
+const$file$asv_seqs_rev_comp <- file.path(const$dir$work, "asv_seqs.rev_comp.fa")
 
 # Count table from searching all reads against ASVs
 const$file$asv_count_table <- file.path(const$dir$work, "asv_seqs.count_table.txt")
