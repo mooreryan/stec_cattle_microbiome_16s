@@ -78,3 +78,11 @@ date && time vsearch \
   --sintax_cutoff 0.5 \
   --tabbedout ${file_taxonomy_predictions}
 ```
+
+## Convert taxonomy prediction to taxonomy table
+
+```{bash Make taxonomy table}
+date && time sudo make_taxonomy_table \
+  "${file_taxonomy_predictions}" \
+  "${file_taxonomy_table}"
+```

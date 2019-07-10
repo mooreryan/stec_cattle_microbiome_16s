@@ -77,6 +77,7 @@ const$file$silva_ltp_fasta <- file.path(const$dir$work, "LTPs132_SSU_compressed.
 const$file$make_silva_sintax_db_log <- file.path(const$dir$work, "make_silva_sintax_db.log.txt")
 const$file$taxonomy_db <- file.path(const$dir$work, "LTPs132_SSU_compressed.sintax.fasta")
 const$file$taxonomy_predictions <- file.path(const$dir$work, "sintax_taxonomy_predictions.txt")
+const$file$taxonomy_table <- file.path(const$dir$work, "sintax_taxonomy_predictions.table.txt")
 
 # Reads from all samples with vsearch sample identifiers
 const$file$all_reads <- file.path(const$dir$work, "all_reads.fa")
@@ -100,3 +101,6 @@ const$file$asv_seqs_rev_comp <- file.path(const$dir$work, "asv_seqs.rev_comp.fa"
 
 # Count table from searching all reads against ASVs
 const$file$asv_count_table <- file.path(const$dir$work, "asv_seqs.count_table.txt")
+
+# Sample info mapping file
+const$file$sample_data <- file.path(const$dir$downloads, "fecal_hide_mapping.txt")
